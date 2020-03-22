@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+.top {
+	background-color: gainsboro;
+	font-weight: bolder;
+}
+
+.controller {
+	text-align: center;
+}
+
+.border {
+	background-color: white;
+	font-size: 14px;
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quanyou.dao.OrdersDao">
+	<!-- 查询个人中心订单 -->
+	<select id="selectOrdersList" parameterType="Integer"
+		resultType="Orders">
+		select * from orders where user_id=#{user_id}
+	</select>
+	<!-- 查看订单详情 -->
+	<select id="findOrderById" parameterType="String" resultType="Orders">
+		select * from orders where id=#{id}
+	</select>
+	<select id="findOrderItemByOrder" parameterType="Orders"
+		resultType="OrderItem">
+		select * from orderitem where order_id=#{id}
+	</select>
+	<select id="findShopByOrderItem" parameterType="String"
+		resultType="Shop">
+		select * from shop where id=#{product_id}
+	</select>
+</mapper>

@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+.background {
+	background-color: #364150;
+}
+
+.zhognjian {
+	background-color: white;
+	width: 300px;
+	height: 300px;
+	text-align: center;
+	margin-left: 500px;
+	border-radius: 5px;
+	margin-top: 100px;
+}
+
+.title {
+	line-height: 50px;
+	color: #4db3a5;
+	font-size: 20px;
+}
+
+.user {
+	margin-right: 100px;
+	margin-top: 20px;
+}
+
+.title-user {
+	margin-left: 30px;
+	font-size: 14px;
+	font-weight: bolder;
+}
+
+.input {
+	margin-top: 5px;
+	margin-left: 30px;
+}
+
+.denglu {
+	font-weight: bolder;
+}

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.quanyou.dao.ShopDao">
+	<!-- 查询所有 -->
+	<select id="findAll" resultType="Shop" parameterType="String">
+		select * from shop
+	</select>
+	<!-- 根据商品名查询信息 -->
+	<select id="findShopByName" parameterType="String" resultType="Shop">
+		select * from shop
+		<where>
+			<if test="name !=null and name != ''">
+				and name like concat('%',#{name},'%')
+			</if>
+		</where>
+	</select>
+	<!--根据销量排序（降序） -->
+	<select id="salesDescend" resultType="Shop">
+		select * from shop order by num desc
+	</select>
+	<!-- 根据销量排序（升序） -->
+	<select id="salesAsc" resultType="Shop">
+		select * from shop order by num asc
+	</select>
+	<!--根据新品排序（降序） -->
+	<select id="NewProductDescend" resultType="Shop">
+		select * from shop order by putAway desc
+	</select>
+	<!--根据新品排序（升序） -->
+	<select id="NewProductAsc" resultType="Shop">
+		select * from shop order by putAway asc
+	</select>
+	<!--根据价格排序（降序） -->
+	<select id="priceDescend" resultType="Shop">
+		select * from shop order by price+0 desc
+	</select>
+	<!--根据价格排序（升序） -->
+	<select id="priceAsc" resultType="Shop">
+		select * from shop order by price+0 asc
+	</select>
+	<!--根据折扣排序（降序） -->
+	<select id="discountDescend" resultType="Shop">
+		select * from shop order by discount+0 desc
+	</select>
+	<!--根据折扣排序（升序） -->
+	<select id="discountAsc" resultType="Shop">
+		select * from shop order by discount+0 asc
+	</select>
+	<!-- 商品详情页面（通过id查询商品） -->
+	<select id="findById" parameterType="Integer" resultType="Shop">
+		select * from shop where id=#{id}
+	</select>
+
+	<!-- 根据id查询（购物车） -->
+	<select id="findShopById" parameterType="Integer" resultType="Shop">
+		select * from shop where id=#{id}
+	</select>
+	<!-- 生成订单 -->
+	<insert id="addOrder" parameterType="Orders">
+		insert into
+		orders(id,money,receiverAddress,receiverName,receiverPhone,paystate,ordertime,user_id)
+		value(#{id},#{money},#{receiverAddress},#{receiverName},#{receiverPhone},1,#{ordertime},#{user.id})
+	</insert>
+	<insert id="addOrderItem" parameterType="OrderItem">
+		insert into orderitem(order_id,product_id,buynum)
+		value(#{order.id},#{p.id},#{buynum})
+	</insert>
+	<!-- shop商品分类 -->
+	<select id="findDrugType1" parameterType="String" resultType="Shop">
+		select * from shop where drugType=1
+	</select>
+	<select id="findDrugType2" parameterType="String" resultType="Shop">
+		select * from shop where drugType=2
+	</select>
+	<select id="findDrugType3" parameterType="String" resultType="Shop">
+		select * from shop where drugType=3
+	</select>
+	<select id="findDrugType4" parameterType="String" resultType="Shop">
+		select * from shop where drugType=4
+	</select>
+	<select id="findDrugType5" parameterType="String" resultType="Shop">
+		select * from shop where drugType=5
+	</select>
+	<select id="findDrugType6" parameterType="String" resultType="Shop">
+		select * from shop where drugType=6
+	</select>
+	<select id="findDrugType7" parameterType="String" resultType="Shop">
+		select * from shop where drugType=7
+	</select>
+	<select id="findDrugType8" parameterType="String" resultType="Shop">
+		select * from shop where drugType=8
+	</select>
+	<select id="findDrugType9" parameterType="String" resultType="Shop">
+		select * from shop where drugType=9
+	</select>
+</mapper>

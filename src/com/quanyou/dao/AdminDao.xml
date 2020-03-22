@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quanyou.dao.AdminDao">
+	<!--admin登录 -->
+	<select id="findAdmin" parameterType="String" resultType="Admin">
+		select * from admin where ad_username=#{ad_username}
+		and ad_password=#{ad_password}
+	</select>
+	<!--查询admin资料 -->
+	<select id="selectAdminList" parameterType="String" resultType="Admin">
+		select * from admin where ad_username=#{ad_username}
+	</select>
+	<!-- admin个人资料-先根据id查询 -->
+	<select id="ByAdminId" parameterType="String" resultType="admin">
+		select * from admin where ad_id=#{ad_id}
+	</select>
+	<update id="updateAdmin" parameterType="admin">
+		update admin
+		<set>
+			<if test="ad_id!=null">
+				ad_id=#{ad_id},
+			</if>
+			<if test="ad_username!=null">
+				ad_username=#{ad_username},
+			</if>
+			<if test="ad_password!=null">
+				ad_password=#{ad_password},
+			</if>
+			<if test="ad_info!=null">
+				ad_info=#{ad_info},
+			</if>
+
+		</set>
+		where ad_id=#{ad_id}
+	</update>
+	<!-- admin查询用户列表 -->
+	<select id="selectUserInfoList" resultType="User">
+		select * from user
+	</select>
+	<!--用户管理列表添加用户 -->
+	<insert id="createUser" parameterType="User">
+		insert into user(
+		id,
+		realname,
+		username,
+		password,
+		phone,
+		email,
+		sex,
+		address,
+		registerTime
+
+		)
+		values(
+		#{id},
+		#{realname},
+		#{username},
+		#{password},
+		#{phone},
+		#{email},
+		#{sex},
+		#{address},
+		#{registerTime}
+		)
+	</insert>
+	<!--admin页面删除用户 -->
+	<delete id="deleteUser" parameterType="String">
+		delete from user where id=#{id}
+	</delete>
+	<!-- admin页面用户模糊查询 -->
+	<select id="mohuchaxun" parameterType="String" resultType="User">
+		select * from user
+		<where>
+			<if test="username !=null and username != ''">
+				and username like concat('%',#{username},'%')
+			</if>
+			<if test="phone !=null and phone != ''">
+				and phone like concat('%',#{phone},'%')
+			</if>
+		</where>
+	</select>
+	<!-- admin页面订单管理 -->
+	<select id="AdminOrdersList" resultType="Orders">
+		select * from orders
+	</select>
+	<!-- admin页面根据订单号查询 -->
+	<select id="AdminOrderById" parameterType="String" resultType="Orders">
+		select * from orders
+		<where>
+			<if test="id !=null and id != ''">
+				and id=#{id}
+			</if>
+		</where>
+	</select>
+	<!-- admin页面修改功能（先根据id查询 再修改） -->
+	<select id="updateUserAdressById" parameterType="String"
+		resultType="orders">
+		select * from orders where id=#{id}
+	</select>
+	<update id="updateUserAdress" parameterType="orders">
+		update orders
+		<set>
+			<if test="id!=null">
+				id=#{id},
+			</if>
+			<if test="receiverAddress!=null">
+				receiverAddress=#{receiverAddress},
+			</if>
+			<if test="receiverName!=null">
+				receiverName=#{receiverName},
+			</if>
+			<if test="receiverPhone!=null">
+				receiverPhone=#{receiverPhone},
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	<!-- admin页面删除订单功能 -->
+	<delete id="deleteAdminOrder" parameterType="String">
+		delete from orders
+		where id=#{id}
+	</delete>
+	<!-- admin页面商品列表 -->
+	<select id="AdminShopList" resultType="Shop">
+		select * from shop
+	</select>
+	<!-- admin页面根据id和商品名模糊查询 -->
+	<select id="mohuchaxunShop" parameterType="String" resultType="Shop">
+		select * from shop
+		<where>
+			<if test="id !=null and id != ''">
+				id=#{id}
+			</if>
+			<if test="name !=null and name != ''">
+				and name like concat('%',#{name},'%')
+			</if>
+			<if test="drugType !=null and drugType != ''">
+				and drugType=#{drugType}
+			</if>
+		</where>
+	</select>
+	<!-- admin页面创建商品信息 -->
+	<insert id="createShop" parameterType="Shop">
+		insert into shop(
+		name,
+		img,
+		price,
+		message,
+		address,
+		num,
+		discount,
+		sDate,
+		bDate,
+		drugType,
+		putAway
+
+		)
+		values(
+		#{name},
+		#{img},
+		#{price},
+		#{message},
+		#{address},
+		#{num},
+		#{discount},
+		#{sDate},
+		#{bDate},
+		#{drugType},
+		#{putAway}
+		)
+	</insert>
+	<!-- admin商品列表 修改商品(1,根据id查询 2，更新操作) -->
+	<select id="getShopById" parameterType="String" resultType="shop">
+		select * from shop where id=#{id}
+	</select>
+	<update id="updateShop" parameterType="shop">
+		update shop
+		<set>
+			<if test="id!=null">
+				id=#{id},
+			</if>
+			<if test="name!=null">
+				name=#{name},
+			</if>
+			<if test="img!=null">
+				img=#{img},
+			</if>
+			<if test="price!=null">
+				price=#{price},
+			</if>
+			<if test="message!=null">
+				message=#{message},
+			</if>
+			<if test="address!=null">
+				address=#{address},
+			</if>
+			<if test="num!=null">
+				num=#{num},
+			</if>
+			<if test="discount!=null">
+				discount=#{discount},
+			</if>
+			<if test="sDate!=null">
+				sDate=#{sDate},
+			</if>
+			<if test="bDate!=null">
+				bDate=#{bDate},
+			</if>
+			<if test="drugType!=null">
+				drugType=#{drugType},
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	<!-- admin页面商品列表删除功能 -->
+	<delete id="deleteShop" parameterType="Integer">
+		delete from shop where id=#{id}
+	</delete>
+	<select id="findSex" parameterType="String">
+		select count(sex) from user where sex=#{sex}
+	</select>
+	<!-- 查询商品库存 -->
+	<select id="findCommodityStocks" parameterType="String"
+		resultType="map">
+		select name , num from shop where drugType like concat('%',#{drugType},'%')
+	</select>
+	<!-- 商品折扣 -->
+	<select id="findCommodityPrice" parameterType="String"
+		resultType="map">
+		select name,price from shop where drugType=#{drugType}
+	</select>
+	<!--本周热买 -->
+	<select id="HotBuyThisWeek" resultType="Shop">
+		select * from shop limit 0,4
+	</select>
+
+</mapper>
