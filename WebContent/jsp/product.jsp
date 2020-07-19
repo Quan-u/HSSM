@@ -82,7 +82,7 @@
 				style="margin-left: 30%; font-size: 12px; color: #666666; margin-top: 10px;">生产日期:${list.sDate}</div>
 		</div>
 		<div
-			style="margin-left: 30%; font-size: 12px; color: #666666; margin-top: 10px;">保质期:${list.address}</div>
+			style="margin-left: 30%; font-size: 12px; color: #666666; margin-top: 10px;">保质期:${list.bDate}个月</div>
 		<div
 			style="margin-left: 30%; font-size: 12px; color: #666666; margin-top: 10px;">详情:${list.message}</div>
 		<%-- <div class="shop-info-4" style="font-size: 12px;color: #666666;">规格参数:</div>

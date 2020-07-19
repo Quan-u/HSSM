@@ -4,9 +4,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<!--本周热买  -->
  <c:if test="${hotBuyThisWeek==null}">
 <jsp:forward page="/HotBuyThisWeek"></jsp:forward>
 </c:if>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript"
@@ -77,7 +79,7 @@ p:hover {
 				src="${pageContext.request.contextPath}/img/topImg1.jpg" />
 		</div>
 		<div class="weizi">
-			<a href="http://localhost:8081/HSSM/findAllshangping"
+			<a href="${pageContext.request.contextPath}/salesDescend"
 				style="text-decoration: none; color: white;"><b>畅销榜单</b></a>
 		</div>
 		<div style="margin-top: 20px; margin-left: 20px;" class="a">
@@ -85,7 +87,7 @@ p:hover {
 				style="text-decoration: none; color: white;"><b>药品商城</b></a>
 		</div>
 		<div style="margin-top: 20px; margin-left: 20px;">
-			<a href="http://localhost:8081/HSSM/findAllshangping"
+			<a href="${pageContext.request.contextPath}/jsp/technicalServices.jsp"
 				style="text-decoration: none; color: white;"><b>技术服务</b></a>
 		</div>
 		<div style="margin-top: 20px; margin-left: 20px;">
@@ -113,6 +115,7 @@ p:hover {
 		</div>
 	</div>
 	<!--轮播图  -->
+	<c:forEach items="${ adminImgList}" var="list">
 	<div>
 		<div class="container index">
 			<div class="span24" style="height: 456px;">
@@ -122,17 +125,17 @@ p:hover {
 			    	<img id="bai2"  src="${pageContext.request.contextPath}/img/bai.png" style="display: none;width:25px;position:absolute;top: 450px;left: 750px;"/>
 			    	<img id="hei3"  src="${pageContext.request.contextPath}/img/hei.png" style="display: block;width:25px;position:absolute; top: 450px;left: 850px;"/>
 			    	<img id="bai3"  src="${pageContext.request.contextPath}/img/bai.png"style="display: none;width:25px;position:absolute;top: 450px;left: 850px;"/> --%>
-				<img id="lb1" src="${pageContext.request.contextPath}/img/225.jpg"
+				<img id="lb1" src="${pageContext.request.contextPath}/${list.imgOne}"
 					style="display: block; width: 1245px; height: 600px;" /> <img
-					id="lb2" src="${pageContext.request.contextPath}/img/24.jpg"
+					id="lb2" src="${pageContext.request.contextPath}/${list.imgTwo}"
 					style="display: none; width: 1245px; height: 600px;" /> <img
-					id="lb3" src="${pageContext.request.contextPath}/img/228.jpg"
+					id="lb3" src="${pageContext.request.contextPath}/${list.imgThree}"
 					style="display: none; width: 1245px; height: 600px;" />
 
 
 			</div>
 		</div>
-	</div>
+	</div></c:forEach>
 	<!--商品分类  -->
 	<div class="shopType">
 		<div>

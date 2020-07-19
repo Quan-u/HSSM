@@ -209,7 +209,7 @@ p:hover {
 				</table>
 			</pg:item>
 		</c:forEach>
-		<div style="text-align: center;">
+		<div style="text-align: center;position: fixed; bottom: 0;margin-left: 33%;">
 			<pg:index>
 				<pg:first>
 					<a href="<%=pageUrl%>"><button>首页</button></a>
@@ -239,11 +239,10 @@ p:hover {
 		</div>
 		
 	</pg:pager>
-	<div
-		style="background-color: gainsboro; width: 100%; height: 40px; margin-top: 10px; position: fixed; bottom: 0;">
+<!-- 	<div style="background-color: gainsboro; width: 100%; height: 40px; margin-top: 10px; position: fixed; bottom: 0;">
 		<div style="text-align: center; line-height: 40px; color: black;">【quanyou.zheng】暮云药店在线购物网
 			版权所有</div>
-	</div>
+	</div -->> 
 
 </body>
 

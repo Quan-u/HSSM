@@ -162,12 +162,12 @@
 		#{price},
 		#{message},
 		#{address},
-		#{num},
+		#{num,jdbcType=INTEGER},
 		#{discount},
 		#{sDate},
 		#{bDate},
 		#{drugType},
-		#{putAway}
+		0
 		)
 	</insert>
 	<!-- admin商品列表 修改商品(1,根据id查询 2，更新操作) -->
@@ -210,6 +210,7 @@
 			<if test="drugType!=null">
 				drugType=#{drugType},
 			</if>
+			
 		</set>
 		where id=#{id}
 	</update>
@@ -234,5 +235,24 @@
 	<select id="HotBuyThisWeek" resultType="Shop">
 		select * from shop limit 0,4
 	</select>
-
-</mapper>
+    <!-- 修改主页图片 先遍历全部 -->
+    <select id="adminImgList" resultType="AdminImg">
+    select * from adminimg 
+    </select>
+     <!-- 修改主页图片 -->
+    <update id="updateAdminImg" parameterType="adminImg">
+    update adminimg
+		<set>
+			<if test="imgOne!=null">
+				imgOne=#{imgOne},
+			</if>
+			<if test="imgTwo!=null">
+				imgTwo=#{imgTwo},
+			</if>
+			<if test="imgThree!=null">
+				imgThree=#{imgThree},
+			</if>
+			</set>
+			where id=#{id}
+    </update>
+    </mapper>

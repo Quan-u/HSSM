@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +15,14 @@ import javax.servlet.http.HttpSession;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.metal.MetalFileChooserUI;
+import javax.swing.text.Document;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,12 +31,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quanyou.po.Admin;
+import com.quanyou.po.AdminImg;
 import com.quanyou.po.Orders;
 import com.quanyou.po.Shop;
 import com.quanyou.po.User;
 import com.quanyou.service.AdminService;
 import com.quanyou.utility.Info;
+import com.quanyou.utility.UploadedImageFile;
 
 import javassist.util.proxy.MethodFilter;
 
@@ -199,63 +207,67 @@ public String deleteUser(String id) {
     }
     //admin页面创建商品信息
     @RequestMapping(value="/createShop")
-
-    public String createShop( @RequestParam("img") MultipartFile file,String fileName, Shop shop, HttpSession session,HttpServletRequest request,HttpServletResponse response) {
-  String name=request.getParameter("name");
-  String price=request.getParameter("price");
-  String message=request.getParameter("message");
-  String address=request.getParameter("address");
-  String img=request.getParameter("img");
-  Integer num=Integer.parseInt(request.getParameter("num"));
-  String discount=request.getParameter("discount");
-  String sDate=request.getParameter("sDate");
-  String bDate=request.getParameter("bDate");
-  String drugType=request.getParameter("drugType");
-	  shop.setName(name);
-	  shop.setPrice(price);
-	  shop.setMessage(message);
-	  shop.setAddress(address);
-	  shop.setImg(img);
-	  System.out.println("要上传的num是："+num);
-	  shop.setNum(num);		   
-	  shop.setDiscount(discount);
-	  shop.setsDate(sDate);
-	  shop.setbDate(bDate);
-	  shop.setDrugType(drugType); 
-    	//时间转换
-        String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        //上传时间
-      shop.setPutAway(Timestamp.valueOf(nowTime));
-    	int i;
-    	i=adminService.createShop(shop); 
-    	if(!file.isEmpty()) {
-    		  //上传文件路径
-            String path = request.getSession().getServletContext().getRealPath("/yaoping/");
-            String filename=fileName;
-            File filepath=new File(path,filename);
-            //判断路径是否存在，如果不存在就创建一个
-            if(!filepath.getParentFile().exists()) {
-            	filepath.getParentFile().mkdirs();
-            }
-            //将上传文件保存到一个目标文件当中
-            try {
-				file.transferTo(new File(path+File.separator+filename));
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            
+    public void createShop( UploadedImageFile file, HttpSession session,HttpServletRequest request,HttpServletResponse response) throws IOException {
+    	String name1=RandomStringUtils.randomAlphabetic(10);
+    	String newFileName = name1 + ".jpg";
+    	 File newFile = new File(request.getServletContext().getRealPath("/yaoping"), newFileName);
+    	 System.out.println(newFile.toString()+"fffffffffff");
+         try {
+        	 newFile.getParentFile().mkdirs();
+    		file.getImg().transferTo(newFile);
+    	} catch (IllegalStateException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	} catch (IOException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
     	}
-      
-    	if(i>0) {
-    		return "OK";
+    	String name=request.getParameter("name");
+    	  String price=request.getParameter("price");
+    	  String message=request.getParameter("message");
+    	  String address=request.getParameter("address");
+    	  String img="yaoping/"+newFileName;
+    	  Integer num=Integer.parseInt(request.getParameter("num"));
+    	  String discount=request.getParameter("discount");
+    	  String sDate=request.getParameter("sDate");
+    	  String bDate=request.getParameter("bDate");
+    	  String drugType=request.getParameter("drugType");
+    	System.out.println(name+""+price+""+message+""+address+""+img+""+num+""+discount+""+sDate+""+bDate);
+         	Shop shop=new  Shop();
+    		  shop.setName(name);
+    		  shop.setPrice(price);
+    		  shop.setMessage(message);
+    		  shop.setAddress(address);
+    		  shop.setImg(img);
+    		  if(num!= 0) {
+    			  shop.setNum(num);		
+    		  }else{
+    			   shop.setNum(0); 
+    		  }  		 
+    		  shop.setDiscount(discount);
+    		  shop.setsDate(sDate);
+    		  shop.setbDate(bDate);
+    		  shop.setDrugType(drugType);
+              int i;
+           	i=adminService.createShop(shop); 
+     	  System.out.println("上传数据库成功!");
+    	 if(i>0) {
+    	       System.out.println("商品添加成功");
+    			response.setCharacterEncoding("utf-8");
+				response.getWriter().print("商品添加成功");
+		
     	}else {
-    		return "FILL";
+    		response.setCharacterEncoding("utf-8");
+			response.getWriter().print("商品添加成功");
+    		System.out.println("商品添加失败");	
     	}
+        /* ModelAndView mav = new ModelAndView("showUploadedFile");
+         mav.addObject("imageName", newFileName);
+         return mav;*/
+		
+    	
     }
+
     //admin页面修改商品(1.根据id查询2.更新操作)
     @RequestMapping(value="/getShopById")
     @ResponseBody
@@ -263,7 +275,7 @@ public String deleteUser(String id) {
     	Shop shop=adminService.getShopById(id);
     	return shop;
     }
-    @RequestMapping(value="/updateShop")
+/*    @RequestMapping(value="/updateShop")
     @ResponseBody
     public String shop(Shop shop) {
     	int r=adminService.updateShop(shop);
@@ -271,6 +283,54 @@ public String deleteUser(String id) {
     		return "OK";
     	}else {
     		return "FAIL";
+    	}
+    	
+    }*/
+    @RequestMapping(value="/updateShop")
+    public void shop(UploadedImageFile file,HttpServletRequest request) {
+    	String name1=RandomStringUtils.randomAlphabetic(10);
+    	String newFileName = name1 + ".jpg";
+    	 File newFile = new File(request.getServletContext().getRealPath("/yaoping"), newFileName);
+    	 System.out.println(newFile.toString()+"fffffffffff");
+         try {
+        	 newFile.getParentFile().mkdirs();
+    		file.getImg().transferTo(newFile);
+    	} catch (IllegalStateException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	} catch (IOException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
+         String id=request.getParameter("id");
+         String name=request.getParameter("name");
+   	  String price=request.getParameter("price");
+   	  String message=request.getParameter("message");
+   	  String address=request.getParameter("address");
+   	  String img="yaoping/"+newFileName;
+   	  Integer num=Integer.parseInt(request.getParameter("num"));
+   	  String discount=request.getParameter("discount");
+   	  String sDate=request.getParameter("sDate");
+   	  String bDate=request.getParameter("bDate");
+   	  String drugType=request.getParameter("drugType");
+   	System.out.println(name+""+price+""+message+""+address+""+img+""+num+""+discount+""+sDate+""+bDate);
+        	Shop shop=new  Shop();
+          shop.setId(id);
+   		  shop.setName(name);
+   		  shop.setPrice(price);
+   		  shop.setMessage(message);
+   		  shop.setAddress(address);
+   		  shop.setImg(img);
+   		  shop.setNum(num);		   
+   		  shop.setDiscount(discount);
+   		  shop.setsDate(sDate);
+   		  shop.setbDate(bDate);
+   		  shop.setDrugType(drugType);
+    	int r=adminService.updateShop(shop);
+    	if(r>0) {
+    System.out.println("商品更新成功");
+    	}else {
+    		 System.out.println("商品更新失败");
     	}
     	
     }
@@ -284,6 +344,7 @@ public String deleteUser(String id) {
     	}else {
     		return "FAIL";	
     	}
+    	
     }
 /*    //admin商品页面根据商品类型查询商品 
     @RequestMapping(value="/selectShopType")
@@ -318,7 +379,139 @@ public String deleteUser(String id) {
     @RequestMapping(value="/HotBuyThisWeek")
     public String HotBuyThisWeek(Model model){
     	List<Shop> list=adminService.HotBuyThisWeek();
+    	/*主页加载图片(和本周热卖一起加载)*/
+    	List<AdminImg> lists=adminService.adminImgList();
+    	model.addAttribute("adminImgList", lists); 		
     	model.addAttribute("hotBuyThisWeek", list);
     	return "homePage";
+    }
+    //管理员页面修改主页图片 先遍历全部
+    @RequestMapping("/adminImgList")
+    public String adminImgList(Model model) {
+    	List<AdminImg> list=adminService.adminImgList();
+    	model.addAttribute("adminImgList", list); 			
+    	return "adminImg";
+    }
+    //主页加载图片
+ /*   @RequestMapping("/adminImgList1")
+    public String adminImgList1(Model model) {
+    	List<AdminImg> list=adminService.adminImgList();
+    	model.addAttribute("adminImgList", list); 			
+    	return "homePage";
+    }*/
+    //修改主页图片 第一张
+    @RequestMapping(value="/updateAdminImg1",method=RequestMethod.POST)
+    public void updateAdminImg1(UploadedImageFile file,HttpServletResponse response,HttpServletRequest request) throws IOException {
+    	String name1=RandomStringUtils.randomAlphabetic(10);
+    	String newFileName = name1 + ".jpg";
+    	 File newFile = new File(request.getServletContext().getRealPath("/adminImg"), newFileName);
+    	 System.out.println(newFile.toString()+"fffffffffff");
+         try {
+        	 newFile.getParentFile().mkdirs();
+    		file.getImg().transferTo(newFile);
+    	} catch (IllegalStateException e) { 
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	} catch (IOException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
+    	Integer id=Integer.parseInt(request.getParameter("id1"));
+    	 String img="adminImg/"+newFileName;
+         String imgTwo=request.getParameter("two1");
+         String imgThree=request.getParameter("three1");
+         AdminImg adminImg=new AdminImg();
+         adminImg.setId(id);
+         adminImg.setImgOne(img);
+         adminImg.setImgTwo(imgTwo);
+         adminImg.setImgThree(imgThree);
+    	int sum=adminService.updateAdminImg(adminImg);
+    	if(sum>0) {
+    		response.setCharacterEncoding("utf-8");
+    		response.getWriter().print("主页图片更新成功！");
+    		System.out.println("主页图片更新成功！");
+    	}else {
+    		response.setCharacterEncoding("utf-8");
+    		response.getWriter().print("主页图片更新失败！");
+    		System.out.println("主页图片更新失败！");
+    	}
+    	
+    }
+  //修改主页图片 第二张
+    @RequestMapping(value="/updateAdminImg2",method=RequestMethod.POST)
+    public void updateAdminImg2(UploadedImageFile file,HttpServletResponse response,HttpServletRequest request) throws IOException {
+    	String name1=RandomStringUtils.randomAlphabetic(10);
+    	String newFileName = name1 + ".jpg";
+    	 File newFile = new File(request.getServletContext().getRealPath("/adminImg"), newFileName);
+    	 System.out.println(newFile.toString()+"fffffffffff");
+         try {
+        	 newFile.getParentFile().mkdirs();
+    		file.getImg().transferTo(newFile);
+    	} catch (IllegalStateException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	} catch (IOException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
+    	Integer id=Integer.parseInt(request.getParameter("id2"));
+         String imgOne=request.getParameter("one2");
+         String img="adminImg/"+newFileName;
+         String imgThree=request.getParameter("three2");
+         AdminImg adminImg=new AdminImg();
+         adminImg.setId(id);
+         adminImg.setImgOne(imgOne);
+         adminImg.setImgTwo(img);
+         adminImg.setImgThree(imgThree);
+    	int sum=adminService.updateAdminImg(adminImg);
+    	if(sum>0) {
+    		response.setCharacterEncoding("utf-8");
+    		response.getWriter().print("主页图片更新成功！");
+    		System.out.println("主页图片更新成功");
+    	}else {
+    		response.setCharacterEncoding("utf-8");
+    		response.getWriter().print("主页图片更新失败！");
+    		System.out.println("主页图片更新失败");
+    	}
+    	
+    }
+    
+    //修改主页图片 第三张
+    @RequestMapping(value="/updateAdminImg3",method=RequestMethod.POST)
+    public void updateAdminImg3(UploadedImageFile file,HttpServletResponse response,HttpServletRequest request) throws IOException {
+    	String name1=RandomStringUtils.randomAlphabetic(10);
+    	String newFileName = name1 + ".jpg";
+    	 File newFile = new File(request.getServletContext().getRealPath("/adminImg"), newFileName);
+    	 System.out.println(newFile.toString()+"fffffffffff");
+         try {
+        	 newFile.getParentFile().mkdirs();
+    		file.getImg().transferTo(newFile);
+    	} catch (IllegalStateException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	} catch (IOException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
+    	Integer id=Integer.parseInt(request.getParameter("id3"));
+         String imgOne=request.getParameter("one3");
+         String imgTwo=request.getParameter("two3");
+    	 String img="adminImg/"+newFileName;
+         AdminImg adminImg=new AdminImg();
+         adminImg.setId(id);
+         adminImg.setImgOne(imgOne);
+         adminImg.setImgTwo(imgTwo);
+         adminImg.setImgThree(img);
+    	int sum=adminService.updateAdminImg(adminImg);
+    	if(sum>0) {
+    		response.setCharacterEncoding("utf-8");
+    		response.getWriter().print("主页图片更新成功！");
+    		System.out.println("主页图片更新成功");
+    	}else {
+    		response.setCharacterEncoding("utf-8");
+    		response.getWriter().print("主页图片更新失败!");
+    		System.out.println("主页图片更新失败");
+    	}
+    	
     }
 }

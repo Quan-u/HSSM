@@ -32,7 +32,7 @@
 	ng-controller="adminMainCtrl">
 	<div data-options="region:'north'"
 		style="height: 100px; text-align: center; overflow-y: auto;">
-		<span style="font-size: 50px;">暮云医院后台管理</span>
+		<span style="font-size: 50px;">暮云药店后台管理</span>
 		<div style="font-size: 15px; position: absolute; left: 0; bottom: 0;">
 			<a href="${pageContext.request.contextPath }/jsp/homePage.jsp"> <img
 				style="margin-left: 10px; margin-bottom: 10px;"
@@ -79,7 +79,7 @@
 					<ul class="tree easyui-tree" data-options="animate:true,lines:true">
 						<li data-options="iconCls:'icon-group_add'"><a
 							style="text-decoration: none;"
-							href="${pageContext.request.contextPath}/ByUserids?id=${user.id}"
+							href="${pageContext.request.contextPath}/adminImgList"
 							target="center"><span>上传图片</span></a></li>
 					</ul>
 				</div>

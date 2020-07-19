@@ -266,7 +266,7 @@ alert(id);
 	//admin删除订单
 	function deleteAdminOrder(id){
 	alert(id);
-	if(confirm('确定要删除改用户吗?')){
+	if(confirm('确定要删除此订单吗?')){
 	$.post("<%=request.getContextPath()%>/deleteAdminOrder",{"id":id},function(data){
 	if(data=="OK"){
 	alert("该订单删除成功！");

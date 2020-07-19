@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.quanyou.dao.AdminDao;
 import com.quanyou.po.Admin;
+import com.quanyou.po.AdminImg;
 import com.quanyou.po.Orders;
 import com.quanyou.po.Shop;
 import com.quanyou.po.User;
@@ -181,6 +182,20 @@ public List<Map<String, Object>> findCommodityPrice(String drugType) {
 public List<Shop> HotBuyThisWeek() {
 	// TODO Auto-generated method stub
 	return Dao.HotBuyThisWeek();
+}
+
+
+@Override
+public List<AdminImg> adminImgList() {
+	// TODO Auto-generated method stub
+	return Dao.adminImgList();
+}
+
+
+@Override
+public int updateAdminImg(AdminImg adminImg) {
+	// TODO Auto-generated method stub
+	return Dao.updateAdminImg(adminImg);
 }
 
 

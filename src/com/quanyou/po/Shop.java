@@ -9,84 +9,112 @@ public class Shop {
 	private String message;
 	private String address;
 	private String img;
-	private int num;
+	private Integer num;
 	private String discount;// 折扣
 	private String sDate;
 	private String bDate;
 	private String drugType;
-	private Timestamp putAway;//上架
+/*	private Timestamp putAway;//上架*/	
+/*  	private String putAway;*/
+
+	
+	
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getPrice() {
 		return price;
 	}
+
 	public void setPrice(String price) {
 		this.price = price;
 	}
+
 	public String getMessage() {
 		return message;
 	}
+
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
 	public String getAddress() {
 		return address;
 	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
 	public String getImg() {
 		return img;
 	}
+
 	public void setImg(String img) {
 		this.img = img;
 	}
-	public int getNum() {
+
+	public Integer getNum() {
 		return num;
 	}
-	public void setNum(int num) {
+
+	public void setNum(Integer num) {
 		this.num = num;
 	}
+
 	public String getDiscount() {
 		return discount;
 	}
+
 	public void setDiscount(String discount) {
 		this.discount = discount;
 	}
+
 	public String getsDate() {
 		return sDate;
 	}
+
 	public void setsDate(String sDate) {
 		this.sDate = sDate;
 	}
+
 	public String getbDate() {
 		return bDate;
 	}
+
 	public void setbDate(String bDate) {
 		this.bDate = bDate;
 	}
+
 	public String getDrugType() {
 		return drugType;
 	}
+
 	public void setDrugType(String drugType) {
 		this.drugType = drugType;
 	}
-	public Timestamp getPutAway() {
+
+/*	public String getPutAway() {
 		return putAway;
 	}
-	public void setPutAway(Timestamp putAway) {
+
+	public void setPutAway(String putAway) {
 		this.putAway = putAway;
-	}
+	}*/
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

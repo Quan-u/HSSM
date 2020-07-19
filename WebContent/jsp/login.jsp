@@ -89,6 +89,7 @@ function check(){
 						</div>
 						<div>
 							<button class="denglu" type="submit">登录</button>
+							
 						</div>
 						<div class="bottom">
 							<div
@@ -96,12 +97,19 @@ function check(){
 							<div
 								style="margin-left: 40px; margin-top: 7px; font-weight: bolder;">
 								立即注册享受在线购物！&nbsp;<a
-									href="${pageContext.request.contextPath}/jsp/register.jsp">立即注册</a>
+									href="${pageContext.request.contextPath}/jsp/register.jsp">立即注册</a>		
 							</div>
+							<div
+								style="margin-left: 40px; margin-top: 1px; font-weight: bolder;">
+								后台管理请点击这&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+									href="${pageContext.request.contextPath}/jsp/adminLogin.jsp">管理员登录</a>		
+							</div>
+							
 						</div>
 					</form>
 				</div>
 			</fieldset>
+				
 		</div>
 	</div>
 </body>

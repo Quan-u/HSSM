@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.quanyou.po.Admin;
+import com.quanyou.po.AdminImg;
 import com.quanyou.po.Orders;
 import com.quanyou.po.Shop;
 import com.quanyou.po.User;
@@ -60,6 +61,9 @@ public interface AdminService {
 		public List<Map<String,Object>> findCommodityPrice(String drugType);
 		//本周热买
 		public List<Shop> HotBuyThisWeek();
-
+		//修改主页图片 先遍历全部
+	    public List<AdminImg> adminImgList();
+	    //修改主页图片
+	    public int updateAdminImg(AdminImg adminImg);
 	
 }

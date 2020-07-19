@@ -29,6 +29,8 @@ private UserService userService;
 public String login(HttpServletRequest request, HttpServletResponse response,String username,String password, Model model) throws UnsupportedEncodingException{
 	User user=userService.findUser(username, password);
 	if(user!=null) {
+		/*request.setAttribute一次传参数，速度快，缺点是参数只能取一次。
+		request.getSession().setAttribute保存参数，将参数放入后主要不清，就一直在，随时可以取来用。缺点是比较占用资源。*/
 		request.getSession().setAttribute("user", user);
 		return "homePage";
 	}else {

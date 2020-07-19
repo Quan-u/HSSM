@@ -61,6 +61,8 @@
 		<pg:param name="m" value="findSysparams" />
 
 		<!-- 修改商品信息框 -->
+		<form action="${pageContext.request.contextPath}/updateShop" 
+			  method="post" enctype="multipart/form-data">
 		<div class="modal fade" id="customerEditDialog1" tabindex="-1"
 			role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
@@ -91,10 +93,12 @@
 							<div class="form-group">
 								<label for="img" class="col-sm-2 control-label"> 商品图片 </label>
 								<div class="col-sm-10">
-									<img height='60' width='60' /><br>
+									<!-- <img height='60' width='60' /><br>
 									<input class="form-control" type="file" name="img"> <input
 										type="text" class="form-control" id="img"
-										placeholder="	    商品图片" name="img" value="yaoping/" />
+										placeholder="	    商品图片" name="img" value="yaoping/" /> -->
+										<input type="file" class="form-control" id="img"
+											 name="img" accept="image/*" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -156,7 +160,7 @@
 								<label for="bDate" class="col-sm-2 control-label">保质期</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="bDate"
-										placeholder="保质期 name=" bDate" />
+										placeholder="保质期 " name="bDate" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -180,15 +184,16 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary"
-							onclick="updateT_project()">保存修改</button>
+						<button type="submit" class="btn btn-primary"
+							>保存修改</button>
 					</div>
 				</div>
 			</div>
 		</div>
+		</form>
 		<!-- 创建商品模态框 -->
-		<form action="${pageContext.request.contextPath}/createShop"
-			class="form-horizontal" id="new_customer_form1" method="post" enctype="multipart/form-data">
+		<form id="formcreateShop" action="${pageContext.request.contextPath}/createShop" 
+		 method="post" enctype="multipart/form-data">
 			<div class="modal fade" id="newCustomerDialog" tabindex="-1"
 				role="dialog" aria-labelledby="myModalLabel">
 				<div class="clearfix" style="margin: 0px 15px 0px">
@@ -218,8 +223,8 @@
 									<div class="col-sm-10">
 
 										<input type="file" class="form-control" id="img"
-											placeholder="商品价格" name="img" />
-
+											 name="img" accept="image/*" />
+                                <!--  <input type="file" name="image" accept="image/*/> -->
 									</div>
 								</div>
 								<div class="form-group">
@@ -313,7 +318,7 @@
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default"
 									data-dismiss="modal">关闭</button>
-								<button type="submit" class="btn btn-primary">创建商品</button>
+								<button  class="btn btn-primary" onclick="haha()">创建商品</button>
 
 							</div>
 						</div>
@@ -525,19 +530,38 @@ alert(id);
 			});
 		}
 	// 执行修改商品操作
-	function updateT_project() {
+	<%-- function updateT_project() {
 		$.post("<%=request.getContextPath()%>/updateShop",$("#T_project_form").serialize(),function(data){
 			if(data =="OK"){
-				alert("该商品信息更新成功！");
 				window.location.reload();
 			}else{
 				alert("修改商品信息失败！");
 				window.location.reload();
 			}
 		});
-	}
+	} --%>
 
+  
+		</script>
+		
+		<script type="text/javascript">
+		  function createShop1() {
+			  alert("f");
+				window.location.reload();
+		        return true;
+		    	/*   window.location.go(-2); */
+		    
+		    	
+			}
+		</script>
+		<script type="text/javascript">
+		function haha(){
+			document.getElementById("formcreateShop").submit();
+			 
+				window.location.reload();
 
+			
+		}
 		</script>
 </body>
 </html>
